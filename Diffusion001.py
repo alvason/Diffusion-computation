@@ -89,7 +89,7 @@ X = AlvaGridXX(gridX, totalGPointT);
 Y = AlvaGridXX(gridT, totalGPointX).T; 
 Z = gridHtx;
 
-view,figure = plt.subplots(1,2,figsize=(30,10));
+view,figure = plt.subplots(1,2,figsize=(10,5));
 figure[0].pcolormesh(X, Y, gridHtx); 
 plt.sca(figure[0])
 plt.xticks(fontsize = AlvaFontSize);plt.yticks(fontsize = AlvaFontSize)
@@ -122,7 +122,7 @@ plt.show()
 minY = minT; maxY = maxT;
 minZ = 0; maxZ = 1;
 
-figure = plt.figure(figsize=(20,10));
+figure = plt.figure(figsize=(20, 10));
 
 figure1 = figure.add_subplot(1,2,1, projection='3d')
 figure1.view_init(30, -60)
@@ -163,4 +163,7 @@ figure2.set_ylabel(r'Time', fontsize = AlvaFontSize);
 
 
 figure.tight_layout()
+
+# <codecell>
+
 
