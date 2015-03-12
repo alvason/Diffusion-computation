@@ -12,7 +12,6 @@ date:   03/11/2015
 
 import numpy as np
 import matplotlib.pyplot as plt
-import time1
 import IPython.display as idisplay
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
@@ -164,64 +163,4 @@ figure2.set_ylabel(r'Time', fontsize = AlvaFontSize);
 
 
 figure.tight_layout()
-
-# <codecell>
-
-gridHtx
-
-# <codecell>
-
-def AlvaD2nd(Htx):
-    leftX = H[0]
-
-# <codecell>
-
-def d2nd(F, Fi):
-    leftX = Fi[0,0:-2]
-    centerX = -2.0*Fi[0,1:-1]
-    rightX = Fi[0,2:]
-    F[0,1:-1] = Fi[0,1:-1] + c0*dt*((leftX + centerX + rightX)/dx**2)      
-
-def d2ndd(F, Fi):
-    left2F = -Fi[0,0:-3]
-    leftF = 16*Fi[0,0:-2]
-    centerF = -30*Fi[0,1:-1]
-    rightF = 16*Fi[0,2:]
-    right2F = -Fi[0,3:]
-    F[0,1:-1] = Fi[0,1:-1] + dt*((left2F + leftF + centerF + rightF +right2F)/(12*dx**2) + Fi[0,1:-1] - Fi[0,1:-1]**2)
-
-Fxt = np.zeros([nt,nx])
-    
-tstart = time.time()
-for tStep in range(nt):
-    Fxt[tStep] = F
-    for i in range(int(tStep/dt)):
-        d2nd(F,Fi)
-        Fi = F
-#    print "computing F for time-step =", tStep
-tfinish = time.time()
-
-# <codecell>
-
-X,Y = np.meshgrid(nx,nt)
-Z = Fxt
-
-plt.figure(4,figsize=(9,6))
-
-plt.pcolor(Fxt);
-plt.title("Fisher equation");
-plt.xlabel(r'$Space$', fontsize=18)
-plt.ylabel(r'$Time$', fontsize=18)
-plt.axes().set_aspect('auto');
-plt.colorbar();
-
-plt.figure(5,figsize=(9,6))
-plt.contour(Z, vmin=abs(Z).min(), vmax=abs(Z).max(), extent=[xmin,xmax,tmin,tmax])
-plt.title("Fisher equation");
-plt.xticks(np.arange(xmin,xmax,10)); plt.yticks(np.arange(tmin,tmax,1));
-plt.xlabel(r'$Space$', fontsize=18)
-plt.ylabel(r'$Time$', fontsize=18)
-plt.axes().set_aspect('auto');
-plt.colorbar();
-plt.show()
 
