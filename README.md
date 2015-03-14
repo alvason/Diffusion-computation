@@ -1,3 +1,4 @@
 # Diffusion-pulse
-Stochastic differential equation with analytic tools
-1. Analytical solution for the diffusion equation http://nbviewer.ipython.org/github/alvason/Diffusion-pulse/blob/master/Analytical%20Diffusion.ipynb
+1. Analytic solution for the classic diffusion equation:
+2. http://nbviewer.ipython.org/github/alvason/Diffusion-pulse/blob/master/Diffusion-analytic.ipynb
+3. 
