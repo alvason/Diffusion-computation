@@ -1,5 +1,5 @@
 # Diffusion Computation
-Lecture-1A  [Analytic solution for a simple model of diffusion](http://nbviewer.ipython.org/github/alvason/Diffusion-pulse/blob/master/Diffusion-analytic.ipynb)
+Lecture-1A  [Analytic solution for a simple model of diffusion](http://nbviewer.ipython.org/github/alvason/Diffusion-computation/blob/master/Diffusion-analytic.ipynb)
 
 Lecture-1B  Numerical solution for the model of diffusion
 
