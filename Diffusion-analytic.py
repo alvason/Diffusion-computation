@@ -3,7 +3,11 @@
 
 # <headingcell level=1>
 
-# Analytic solution of a simple diffusion equation
+# Diffusion computation
+
+# <headingcell level=3>
+
+# Lecture-1A   Analytic solution of a simple diffusion equation
 
 # <codecell>
 
