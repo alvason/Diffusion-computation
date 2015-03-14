@@ -1,6 +1,6 @@
 # Diffusion Computation
-Lecture-1A  [Analytic solution for a simple model of diffusion](http://nbviewer.ipython.org/github/alvason/Diffusion-computation/blob/master/Diffusion-analytic.ipynb)
-![alt tag](https://github.com/alvason/Diffusion-computation/blob/master/Figure/diffusion3D.png)
+Lecture-1A  [Analytic solution for a simple model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-analytic.ipynb)
+![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/diffusion3D.png)
 Lecture-1B  Numerical solution for the model of diffusion
 
 Lecture-1C  Stochastic solution for the model of diffusion
