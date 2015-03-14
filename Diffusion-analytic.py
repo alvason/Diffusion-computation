@@ -7,7 +7,7 @@
 
 # <headingcell level=3>
 
-# Lecture-1A   Analytic solution of a simple diffusion equation
+# Lecture-1a   Analytic solution of a simple diffusion equation
 
 # <codecell>
 
