@@ -5,6 +5,6 @@ Lecture-2 Numerical solution for the model of diffusion
 
 Lecture-3 Stochastic solution for the model of diffusion
 
-Lexture-4 Analytic solution for a Fisher-type diffusion
+Lecture-4 Analytic solution for a Fisher-type diffusion
 
 Lecture-5 Numerical for a Fisher-type diffusion
