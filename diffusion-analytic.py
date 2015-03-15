@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
-# <headingcell level=1>
+# <markdowncell>
 
-# Diffusion computation
-
-# <headingcell level=3>
-
-# Lecture-1a   Analytic solution of a simple diffusion equation
+# # Diffusion computation
+# https://github.com/alvason/diffusion-computation
+# 
+# ### Lecture-1a Diffusion equation with analytic solution
 
 # <codecell>
 

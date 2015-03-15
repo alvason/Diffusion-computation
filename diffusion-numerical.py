@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
+# <markdowncell>
+
+# # Diffusion computation
+# https://github.com/alvason/diffusion-computation
+# 
+# ### Lecture-1b Numerical solution for the diffusion equation
+
 # <codecell>
+
+'''
+author: Alvason Zhenhua Li
+date:   03/15/2015
+'''
 
 %matplotlib inline
 
