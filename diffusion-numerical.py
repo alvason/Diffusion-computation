@@ -6,7 +6,7 @@
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
 # 
-# ### Lecture-1b Numerical solution for the diffusion equation
+# ### Lecture002 Numerical solution for the diffusion equation
 
 # <codecell>
 
@@ -42,28 +42,6 @@ def AlvaGridXX(gridX, totalGPoint_Y):
     for n in range(totalGPoint_Y - 1):
         gridXX = np.vstack((gridXX, gridX));
     return gridXX;
-# checking both the gridXX function and the plotting function with matrix of gridXX
-minX = float(0); maxX = float(1);
-minY = float(0); maxY = float(3);
-
-totalGPoint_X = int(30 + 1);
-dx = (maxX - minX)/(totalGPoint_X - 1); 
-gridX = np.linspace(minX, maxX, totalGPoint_X); 
-totalGPoint_Y = int(6 + 1); 
-dy = (maxY - minY)/(totalGPoint_Y - 1);
-gridY = np.linspace(minY, maxY, totalGPoint_Y)
-
-X = AlvaGridXX(gridX, totalGPoint_Y)
-Y = AlvaGridXX(gridY, totalGPoint_X).T
-
-numberingFig = numberingFig + 1;
-plt.figure(numberingFig, figsize=(10,3));
-plt.xticks(fontsize = AlvaFontSize);plt.yticks(fontsize = AlvaFontSize)
-plt.plot(X, Y, linestyle='dotted', marker='.', color = 'gray');
-plt.title(r'$ Grid $', fontsize = AlvaFontSize); 
-plt.xlabel(r'$X \ (dx = %f) $' %(dx), fontsize = AlvaFontSize);
-plt.ylabel(r'$Y \ (dy = %f) $' %(dy), fontsize = AlvaFontSize);
-plt.show()
 
 # <codecell>
 
@@ -111,13 +89,13 @@ for tn in range(totalGPoint_T):
 
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(16,7));     
+plt.figure(numberingFig,figsize=(10,6));     
 plt.plot(gridX[:], gridHtx_A[:,:].T);
 plt.grid(True)
 plt.title(r'$Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
-plt.text(maxX/1.65, 2.0/3, r'$ \frac{\partial H(x,t)}{\partial t}=\xi \ \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
-plt.text(maxX/1.65, 1.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = 1.5*AlvaFontSize);
+plt.text(maxX, 2.0/3, r'$ \frac{\partial H(x,t)}{\partial t}=\xi \ \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
+plt.text(maxX, 1.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = 1.5*AlvaFontSize);
 plt.show()
 
 # for 3D plotting
@@ -126,19 +104,11 @@ Y = AlvaGridXX(gridT, totalGPoint_X).T;
 Z = gridHtx_A;
 
 numberingFig = numberingFig + 1;
-figure = plt.figure(numberingFig,figsize=(16, 7)); 
-figure1 = figure.add_subplot(1,2,1);
-figure1.pcolormesh(X, Y, Z); 
-figure1.set_title("Analytic diffusion", fontsize = AlvaFontSize); 
-figure1.set_xlabel(r'x (space)', fontsize = AlvaFontSize);
-figure1.set_ylabel(r't (time)', fontsize = AlvaFontSize); 
-figure1.set_aspect('auto');
-
-figure2 = figure.add_subplot(1,2,2);
-figure2.contour(X, Y, Z, vmin=abs(Z).min(), vmax=abs(Z).max());
-figure2.set_title("Analytic diffusion", fontsize = AlvaFontSize);
-figure2.set_xlabel(r'x (space)', fontsize = AlvaFontSize);
-figure2.set_ylabel(r't (time)', fontsize = AlvaFontSize);
+plt.figure(numberingFig,figsize=(12,6)); 
+plt.pcolor(X, Y, Z);
+plt.title(r'$ Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
+plt.colorbar();
 plt.show()
 
 # <codecell>
@@ -209,8 +179,8 @@ plt.show()
 
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig,figsize=(12,6)); 
-plt.pcolor(gridHtx);
-plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.pcolor(X, Y, gridHtx);
+plt.title(r'$ Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
 plt.colorbar();
 plt.show()

@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
-# <markdowncell>
+# <rawcell>
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
 # 
-# ### Lecture-1a Diffusion equation with analytic solution
+# ### Lecture001 Diffusion equation with analytic solution
+# In a physical intuitive vision, an analytic solution is a crystal clear way for measuring the true. 
+#    
+# During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 
 # <codecell>
 
 '''
 author: Alvason Zhenhua Li
 date:   03/11/2015
+
+In a physical intuitive vision, an analytic solution is a crystal clear way for measuring the true.
+During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 '''
 
 %matplotlib inline
