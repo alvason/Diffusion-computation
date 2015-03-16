@@ -1,5 +1,6 @@
 # Diffusion Computation
-Lecture-1A  [Diffusion model with analytic solution](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-analytic.ipynb)
+Lecture001  [Diffusion model with analytic solution](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-analytic.ipynb)
+
 In a physical intuitive vision, an analytic solution is a crystal clear way for measuring the true. 
    
 During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
