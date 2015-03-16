@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
-# <markdowncell>
+# <rawcell>
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
