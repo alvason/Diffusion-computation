@@ -71,11 +71,11 @@ plt.show()
 minX = float(0); maxX = float(3);
 minT = float(0); maxT = float(1);
 
-totalGPoint_X = int(3 + 1);
+totalGPoint_X = int(20 + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
 gridX = np.linspace(minX, maxX, totalGPoint_X); 
 
-totalGPoint_T = int(6 + 1); 
+totalGPoint_T = int(100 + 1); 
 dt = (maxT - minT)/(totalGPoint_T - 1);
 gridT = np.linspace(minT, maxT, totalGPoint_T)
 
@@ -158,7 +158,6 @@ gridHtx = initialH.copy();
 #print gridHtx
 start_time = time.time();
 for tn in range(totalGPoint_T - 1):
-
     for xn in range(totalGPoint_X):
         if (xn - 1) < 0: leftX = 0.0
         else: leftX = gridHtx[tn, xn - 1];
@@ -184,15 +183,15 @@ plt.show()
 # Numerical solution with the feature of NumPy
 gridHtx = initialH.copy();
 Hgear = initialH.copy();
-print gridHtx
+#print gridHtx
 
 start_time = time.time();
 for tn in range(totalGPoint_T - 1):
-    leftX =   np.append(0.0, Hgear[tn, 1:]); 
+    leftX =   np.roll(Hgear[tn, :], 1); leftX[0:1] = 0.0; 
     centerX = Hgear[tn, :]; 
-    rightX =  np.append(Hgear[tn, :-1], 0.0);
-    gridHtx[tn + 1, :] = Hgear[tn, :] + dt*(leftX - 2.0*centerX + rightX)/(dx)**2; 
+    rightX =  np.roll(Hgear[tn, :], -1); rightX[-1:] = 0.0;
     
+    gridHtx[tn + 1, :] = Hgear[tn, :] + dt*(leftX - 2.0*centerX + rightX)/(dx)**2; 
     Hgear = gridHtx.copy()
 
 stop_time = time.time(); 
