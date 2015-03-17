@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
-# <rawcell>
+# <markdowncell>
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
 # 
-# ### Lecture002 Numerical solution for the diffusion equation
+# ### Lecture002 --- Numerical solution for the diffusion equation
 
 # <codecell>
 

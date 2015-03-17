@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
-# <rawcell>
+# <markdowncell>
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
 # 
-# ### Lecture001 Diffusion equation with analytic solution
+# ### Lecture001 --- Diffusion equation with analytic solution
 # In a physical intuitive vision, an analytic solution is a crystal clear way for viewing the core. 
 #    
 # During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
