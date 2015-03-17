@@ -24,6 +24,7 @@ import IPython.display as idisplay
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 AlvaFontSize = 23;
+AlvaFigSize = (6, 6);
 numberingFig = 0;
 
 numberingFig = numberingFig + 1;
@@ -46,29 +47,34 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(3);
+minX = float(0); maxX = float(6);
 minT = float(0); maxT = float(1);
 
 totalGPoint_X = int(20 + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
 gridX = np.linspace(minX, maxX, totalGPoint_X); 
 
-totalGPoint_T = int(100 + 1); 
+totalGPoint_T = int(200 + 1); 
 dt = (maxT - minT)/(totalGPoint_T - 1);
 gridT = np.linspace(minT, maxT, totalGPoint_T)
 
 gridHtx = np.zeros([totalGPoint_T, totalGPoint_X])
 
-movingRate = 1.0/10 # diffusion coefficience
+# for 3D plotting
+X = AlvaGridXX(gridX, totalGPoint_T); 
+Y = AlvaGridXX(gridT, totalGPoint_X).T; 
+
+# diffusion coefficience (area moving rate per time)
+movingRate = 1.0/10;
 
 tn = 0; # inital time = minT = gridT[tn = 0]
 for xn in range(totalGPoint_X):
-    gridHtx[tn, xn] = (1.0/(1.0+4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
+    gridHtx[tn, xn] = (1.0/np.sqrt(1.0 + 4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn] - (maxX - minX)/2.0)**2/(1.0 + 4.0*movingRate*gridT[tn]))
 
 initialH = gridHtx.copy();
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(10,5));     
+plt.figure(numberingFig, figsize = AlvaFigSize);     
 plt.plot(gridX[:], gridHtx[:,:].T);
 plt.grid(True)
 plt.title(r'$ Initial \ conditions $', fontsize = AlvaFontSize);
@@ -78,6 +84,53 @@ plt.text(maxX, 1.0/3, r'$ dt = %f $'%(dt), fontsize = AlvaFontSize);
 plt.text(maxX, minX, r'$ dx = %f $'%(dx), fontsize = AlvaFontSize); 
 plt.show()
 
+
+# Numerical solution with the feature of NumPy
+gridHtx = initialH.copy();
+Hgear = initialH.copy();
+#print gridHtx
+'''
+def neighborX(arrayX, int(radius):
+    shifting = np.roll(arrayX, radius);
+    if radius > 0: shifting[0:radius] = 0.0; # left
+    if radius < 0: shifting[radius:] = 0.0; # right
+    return shifting
+'''
+start_time = time.time();
+for tn in range(totalGPoint_T - 1):
+    leftX = np.roll(Hgear[tn, :], 1); leftX[0:1] = 0.0; 
+    left2X = np.roll(Hgear[tn, :], 2); left2X[0:2] = 0.0;
+    centerX = Hgear[tn, :]; 
+    rightX = np.roll(Hgear[tn, :], -1); rightX[-1:] = 0.0;
+    right2X = np.roll(Hgear[tn, :], -2); right2X[-2:] = 0.0;
+    
+    gridHtx[tn + 1, :] = Hgear[tn, :] + dt*(-left2X + 16*leftX - 30*centerX + 16*rightX - right2X)/(12*(dx)**2); 
+    Hgear = gridHtx.copy();
+
+stop_time = time.time(); 
+total_time = stop_time - start_time;
+print 'total computational time = %f'% (total_time);
+
+
+#print gridHtx
+numberingFig = numberingFig + 1;
+plt.figure(numberingFig, figsize = (6,6));     
+plt.plot(gridX, gridHtx[0::10].T);
+plt.grid(True)
+plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
+plt.show()
+
+'''
+numberingFig = numberingFig + 1;
+plt.figure(numberingFig, figsize = AlvaFigSize); 
+plt.pcolor(X, Y, gridHtx);
+plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
+#plt.colorbar();
+plt.show()
+'''
+
 # <codecell>
 
 # Analytic solution
@@ -85,30 +138,25 @@ gridHtx_A = np.zeros([totalGPoint_T, totalGPoint_X]); # Define the space for ana
 
 for tn in range(totalGPoint_T):  
     for xn in range(totalGPoint_X):
-        gridHtx_A[tn,xn] = (1.0/(1.0 + 4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
+        gridHtx_A[tn,xn] = (1.0/np.sqrt(1.0 + 4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
 
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(10,6));     
-plt.plot(gridX[:], gridHtx_A[:,:].T);
+plt.figure(numberingFig, figsize = AlvaFigSize);     
+plt.plot(gridX[:], gridHtx_A[0::10].T);
 plt.grid(True)
 plt.title(r'$Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
 plt.text(maxX, 2.0/3, r'$ \frac{\partial H(x,t)}{\partial t}=\xi \ \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
 plt.text(maxX, 1.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = 1.5*AlvaFontSize);
-plt.show()
-
-# for 3D plotting
-X = AlvaGridXX(gridX, totalGPoint_T); 
-Y = AlvaGridXX(gridT, totalGPoint_X).T; 
-Z = gridHtx_A;
+plt.show();
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(12,6)); 
-plt.pcolor(X, Y, Z);
+plt.figure(numberingFig, figsize = AlvaFigSize); 
+plt.pcolor(X, Y, gridHtx_A);
 plt.title(r'$ Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
-plt.colorbar();
+#plt.colorbar();
 plt.show()
 
 # <codecell>
@@ -138,10 +186,10 @@ for tn in range(totalGPoint_T - 1):
             
 stop_time = time.time(); 
 total_time = stop_time - start_time;
-print 'total computational time = %f'% (total_time);
+print ('total computational time = %f'% total_time);
 #print gridHtx  
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(10,5));     
+plt.figure(numberingFig, figsize = AlvaFigSize);     
 plt.plot(gridX, gridHtx.T);
 plt.grid(True)
 plt.title(r'$ Numerical \ solution \ (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
@@ -170,7 +218,7 @@ print 'total computational time = %f'% (total_time);
 
 #print gridHtx
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(10,5));     
+plt.figure(numberingFig, figsize = AlvaFigSize);     
 plt.plot(gridX, gridHtx.T);
 plt.grid(True)
 plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
@@ -178,12 +226,18 @@ plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', f
 plt.show()
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig,figsize=(12,6)); 
+plt.figure(numberingFig, figsize = AlvaFigSize); 
 plt.pcolor(X, Y, gridHtx);
-plt.title(r'$ Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
-plt.colorbar();
+#plt.colorbar();
 plt.show()
+
+# <codecell>
+
+aaa = np.arange(1,9)
+bbb = np.roll(aaa, 0)
+bbb
 
 # <codecell>
 

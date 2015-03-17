@@ -7,7 +7,7 @@
 # https://github.com/alvason/diffusion-computation
 # 
 # ### Lecture001 Diffusion equation with analytic solution
-# In a physical intuitive vision, an analytic solution is a crystal clear way for measuring the true. 
+# In a physical intuitive vision, an analytic solution is a crystal clear way for viewing the core. 
 #    
 # During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 
@@ -17,7 +17,7 @@
 author: Alvason Zhenhua Li
 date:   03/11/2015
 
-In a physical intuitive vision, an analytic solution is a crystal clear way for measuring the true.
+In a physical intuitive vision, an analytic solution is a crystal clear way for viewing the core.
 During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 '''
 
@@ -52,23 +52,23 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 
 # Initial conditions
 minX = float(0); maxX = float(10);
-minT = float(0); maxT = float(20);
+minT = float(0); maxT = float(10);
 
 totalGPoint_X = int(100 + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
 gridX = np.linspace(minX, maxX, totalGPoint_X); 
 
-totalGPoint_T = int(30 + 1); 
+totalGPoint_T = int(60 + 1); 
 dt = (maxT - minT)/(totalGPoint_T - 1);
 gridT = np.linspace(minT, maxT, totalGPoint_T)
 
 gridHtx = np.zeros([totalGPoint_T, totalGPoint_X])
 
-movingRate = 1.0/10 # diffusion coefficience
+movingRate = 1.0/4 # diffusion coefficience
 
 tn = 0; # inital time = minT = gridT[tn = 0]
 for xn in range(totalGPoint_X):
-    gridHtx[tn, xn] = (1.0/(1.0+4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
+    gridHtx[tn, xn] = (1.0/np.sqrt(1.0+4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
 
 initialH = gridHtx.copy();
 
@@ -90,12 +90,12 @@ gridHtx_A = np.zeros([totalGPoint_T, totalGPoint_X]); # Define the space for ana
 
 for tn in range(totalGPoint_T):  
     for xn in range(totalGPoint_X):
-        gridHtx_A[tn,xn] = (1.0/(1.0 + 4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
+        gridHtx_A[tn,xn] = (1.0/np.sqrt(1.0 + 4.0*movingRate*gridT[tn]))*np.exp(-(gridX[xn]-(maxX-minX)/2.0)**2/(1.0+4.0*movingRate*gridT[tn]))
 
 
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig,figsize=(16,7));     
-plt.plot(gridX[:], gridHtx_A[:,:].T);
+plt.plot(gridX[:], gridHtx_A[::10].T);
 plt.grid(True)
 plt.title(r'$Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
@@ -112,16 +112,16 @@ numberingFig = numberingFig + 1;
 figure = plt.figure(numberingFig,figsize=(16, 7)); 
 figure1 = figure.add_subplot(1,2,1);
 figure1.pcolormesh(X, Y, Z); 
-figure1.set_title("Analytic diffusion", fontsize = AlvaFontSize); 
-figure1.set_xlabel(r'x (space)', fontsize = AlvaFontSize);
-figure1.set_ylabel(r't (time)', fontsize = AlvaFontSize); 
+figure1.set_title(r'$Analytic \ diffusion$', fontsize = AlvaFontSize); 
+figure1.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
 figure1.set_aspect('auto');
 
 figure2 = figure.add_subplot(1,2,2);
 figure2.contour(X, Y, Z, vmin=abs(Z).min(), vmax=abs(Z).max());
-figure2.set_title("Analytic diffusion", fontsize = AlvaFontSize);
-figure2.set_xlabel(r'x (space)', fontsize = AlvaFontSize);
-figure2.set_ylabel(r't (time)', fontsize = AlvaFontSize);
+figure2.set_title('$Analytic \ diffusion$', fontsize = AlvaFontSize);
+figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
 plt.show()
 
 # <codecell>
