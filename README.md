@@ -7,6 +7,7 @@ During numerical computation development, an analytic solution is one of the cor
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/diffusion3D.png)
 Lecture-1B  Numerical solution for the model of diffusion
 
+The detail process in boundary is the key for precision 
 Lecture-1C  Stochastic solution for the model of diffusion
 
 Lecture-2A  Fisher-type diffusion by analytic way
