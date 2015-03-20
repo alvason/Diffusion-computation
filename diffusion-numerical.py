@@ -31,8 +31,10 @@ numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize=(12,3))
 plt.axis('off')
 plt.title(r'$ Diffusion \ equation \ and \ analytic \ solution $',fontsize = AlvaFontSize)
-plt.text(0,1.0/2,r'$ \frac{\partial H(x,t)}{\partial t}=\xi \ \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
-plt.text(0,0.0/2,r'$H(x,t) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = 1.5*AlvaFontSize)
+plt.text(0,1.0/2,r'$ \frac{\partial H(x,t)}{\partial t} = \
+         \xi \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
+plt.text(0,0.0/2,r'$H(x,t) = \frac{1}{(1 + 4 \xi \ t)^{1/2}} \
+         e^\frac{-x^2}{1 + 4 \xi \ t}}$', fontsize = 1.5*AlvaFontSize)
 plt.show()
 
 # <codecell>
@@ -47,7 +49,8 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 
 # define analytic solution H(x,t)
 def analyticHtx(t, x):
-    analyticH = (1.0/np.sqrt(1.0 + 4.0*movingRate*t))*np.exp(-(x - (maxX - minX)/2.0 + 0)**2/(1.0 + 4.0*movingRate*t));
+    analyticH = (1.0/np.sqrt(1.0 + 4.0*movingRate*t))*np.exp(-(x - (maxX - minX)/2.0 + 0
+                                                               )**2/(1.0 + 4.0*movingRate*t));
     return analyticH
 
 # <codecell>
@@ -58,18 +61,21 @@ plt.figure(numberingFig, figsize=(12,3))
 plt.axis('off')
 plt.title('Centered fomular of 2nd derivative', fontsize = AlvaFontSize)
 plt.text(0, 2.0/3, r'$ \frac{\partial^2 H(t,x)}{\partial x^2} \approx \
-         \frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2} $', fontsize = AlvaFontSize)
+         \frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2} $'
+         , fontsize = AlvaFontSize)
 plt.text(0, 1.0/3, r'$ \Longrightarrow\frac{\Delta H(t+\Delta t,x)}{\Delta t} \
-         = \xi(\frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2}) $', fontsize = AlvaFontSize)
+         = \xi(\frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2}) $'
+         , fontsize = AlvaFontSize)
 plt.text(0, 0, r'$ \Longrightarrow H(t+\Delta t,x) = H(t,x) + \Delta H(t+\Delta t,x) \
-         = H(t,x) + \Delta t \ \xi(\frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2}) $', fontsize = AlvaFontSize)
+         = H(t,x) + \Delta t \ \xi(\frac{H(t,x - \Delta x) - 2H(t,x) \
+         + H(t,x + \Delta x)}{(\Delta x)^2}) $', fontsize = AlvaFontSize)
 plt.show()
 plt.show()
 
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(5);
+minX = float(0); maxX = float(6);
 minT = float(0); maxT = float(10);
 
 resolution = 100;
@@ -80,9 +86,9 @@ gridX = np.linspace(minX, maxX, totalGPoint_X);
 
 totalGPoint_T = int(20*resolution + 1); 
 dt = (maxT - minT)/(totalGPoint_T - 1);
-gridT = np.linspace(minT, maxT, totalGPoint_T)
+gridT = np.linspace(minT, maxT, totalGPoint_T);
 
-gridHtx = np.zeros([totalGPoint_T, totalGPoint_X])
+gridHtx = np.zeros([totalGPoint_T, totalGPoint_X]);
 
 # for 3D plotting
 X = AlvaGridXX(gridX, totalGPoint_T); 
@@ -93,7 +99,7 @@ movingRate = 1.0/4;
 
 tn = 0; # inital time = minT = gridT[tn = 0]
 for xn in range(totalGPoint_X):
-    gridHtx[tn, xn] = analyticHtx(gridT[tn], gridX[xn])
+    gridHtx[tn, xn] = analyticHtx(gridT[tn], gridX[xn]);
 initialH = gridHtx.copy();
 
 numberingFig = numberingFig + 1;
@@ -101,8 +107,10 @@ plt.figure(numberingFig, figsize = AlvaFigSize);
 plt.plot(gridX[:], gridHtx[:,:].T);
 plt.grid(True)
 plt.title(r'$ Initial \ conditions: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
-plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
-plt.text(maxX, 2.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$'
+                                                                  , fontsize = AlvaFontSize)
+plt.text(maxX, 2.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} \
+         e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = AlvaFontSize);
 plt.text(maxX, 1.0/3, r'$ dt = %f $'%(dt), fontsize = AlvaFontSize);
 plt.text(maxX, minX, r'$ dx = %f $'%(dx), fontsize = AlvaFontSize); 
 plt.show()
@@ -114,44 +122,24 @@ Hcopy = initialH.copy();
 #print gridHtx
 
 start_time = time.time();
-'''
-for tn in range(totalGPoint_T - 1):
-    leftX = np.roll(Hgear[tn, :], 1); leftX[0:1] = 0.0; 
-    left2X = np.roll(Hgear[tn, :], 2); left2X[0:2] = 0.0;
-    centerX = Hgear[tn, :]; 
-    rightX = np.roll(Hgear[tn, :], -1); rightX[-1:] = 0.0;
-    right2X = np.roll(Hgear[tn, :], -2); right2X[-2:] = 0.0;
-    
-    gridHtx[tn + 1, :] = Hgear[tn, :] + dt*movingRate*(-left2X + 16*leftX - 30*centerX 
-                                                       + 16*rightX - right2X)/(12*(dx)**2); 
-    Hgear = gridHtx.copy();
-    
-for tn in range(totalGPoint_T - 1):
-    leftX = np.roll(Hgear[tn, :], 1); leftX[0:1] = leftX[1:2]; 
-    left2X = np.roll(Hgear[tn, :], 2); left2X[0:2] = left2X[2:3];
-    centerX = Hgear[tn, :]; 
-    rightX = np.roll(Hgear[tn, :], -1); rightX[-1:] = rightX[-2:-1];
-    right2X = np.roll(Hgear[tn, :], -2); right2X[-2:] = right2X[-3:-2];   
-    gridHtx[tn + 1, :] = Hgear[tn, :] + dt*movingRate*(-left2X + 16*leftX - 30*centerX
-                                                       + 16*rightX - right2X)/(12*(dx)**2);   
-    Hgear = gridHtx.copy();
-''' 
+
+ 
 
 # 3 points scheme
 for tn in range(totalGPoint_T - 1):
-    leftX = np.roll(Hcopy[tn, :], 1); leftX[0] = 0.0; 
     centerX = Hcopy[tn, :]; 
-    rightX = np.roll(Hcopy[tn, :], -1); rightX[-1] = 0.0;
-    gridHtx[tn + 1, 1:-1] = Hcopy[tn, 1:-1] + dt*movingRate*(leftX[1:-1] - 2.0*centerX[1:-1] + rightX[1:-1])/((dx)**2); 
-    
-    # boundary
-    centerX_L = Hcopy[tn, 0]; rightX = Hcopy[tn, 1];
-    centerX_R = Hcopy[tn, -1]; leftX = Hcopy[tn, -2];
-    gridHtx[tn + 1, 0] = Hcopy[tn, 0] + dt*movingRate*(0*leftX - 2.0/2*centerX_L + rightX)/((dx)**2);
-    gridHtx[tn + 1, -1] = Hcopy[tn, -1] + dt*movingRate*(leftX - 2.0/2*centerX_R + 0*rightX)/((dx)**2);
+    leftX = np.roll(Hcopy[tn, :], 1);
+    # for isolated boundary requires 
+    # (leftX[0] - 2.0*centerX[0] + rightX[0]) = (- centerX[0] + rightX[0])
+    leftX[0] = centerX[0];
+    rightX = np.roll(Hcopy[tn, :], -1);
+    rightX[-1] = centerX[-1]; 
+    gridHtx[tn + 1, :] = Hcopy[tn, :] + dt*movingRate*(leftX - 2.0*centerX + rightX)/((dx)**2); 
     
     Hcopy = gridHtx.copy();
-'''    
+ 
+ 
+'''
 # 5 points scheme    
 for tn in range(totalGPoint_T - 1):
     leftX = np.roll(Hcopy[tn, :], 1); leftX[0:1] = 0.0; 
@@ -162,47 +150,38 @@ for tn in range(totalGPoint_T - 1):
     
     gridHtx[tn + 1, 2:-2] = Hcopy[tn, 2:-2] + dt*movingRate*(-left2X[2:-2] + 16*leftX[2:-2] - 30*centerX[2:-2]
                                                        + 16*rightX[2:-2] - right2X[2:-2])/(12*(dx)**2);   
-    # boundary
-    centerX_L = Hcopy[tn, 0]; rightX = Hcopy[tn, 1]; right2X = Hcopy[tn, 2];
-    center2X_L = Hcopy[tn, 1]; rightX = Hcopy[tn, 2]; right2X = Hcopy[tn, 3];
-    centerX_R = Hcopy[tn, -1]; leftX = Hcopy[tn, -2]; left2X = Hcopy[tn, -3];
-    center2X_R = Hcopy[tn, -2]; leftX = Hcopy[tn, -3]; left2X = Hcopy[tn, -4];
-    gridHtx[tn + 1, 0] = Hcopy[tn, 0] + dt*movingRate*(-left2X*0 + 16*leftX*0 - 30.0/2*centerX_L
-                                                       + 16*rightX - right2X)/(12*(dx)**2); 
-    gridHtx[tn + 1, 1] = Hcopy[tn, 1] + dt*movingRate*(-left2X*0 + 16*leftX - 30*center2X_L
-                                                       + 16*rightX - right2X)/(12*(dx)**2); 
-    gridHtx[tn + 1, -1] = Hcopy[tn, -1] + dt*movingRate*(-left2X + 16*leftX - 30.0/2*centerX_R 
-                                                         + 16*rightX*0 - right2X*0)/(12*(dx)**2);
-    gridHtx[tn + 1, -2] = Hcopy[tn, -2] + dt*movingRate*(-left2X + 16*leftX - 30*center2X_R 
-                                                         + 16*rightX - right2X*0)/(12*(dx)**2);
-    
     Hcopy = gridHtx.copy();
 '''
+
 stop_time = time.time(); 
 total_time = stop_time - start_time;
 print 'total computational time = %f'% (total_time);
 
-
+'''
 #print gridHtx
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize = AlvaFigSize);     
 plt.plot(gridX, gridHtx[0::resolution].T);
 plt.grid(True)
 plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
-plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
 plt.show()
+'''
 
 numberingFig = numberingFig + 1;
 figure = plt.figure(numberingFig,figsize=(16, 7)); 
 figure1 = figure.add_subplot(1,2,1);
-figure1.pcolormesh(X, Y, gridHtx); 
+#figure1.pcolormesh(X, Y, gridHtx); 
+figure1.plot(gridX, gridHtx[0::2*resolution].T);
 figure1.set_title(r'$Numerical \ diffusion$', fontsize = AlvaFontSize); 
 figure1.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
-figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
+#figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
+figure1.set_ylabel(r'$H(x,t)$', fontsize = AlvaFontSize); 
 figure1.set_aspect('auto');
 
 figure2 = figure.add_subplot(1,2,2);
-figure2.contour(X, Y, gridHtx, vmin=abs(gridHtx).min(), vmax=abs(gridHtx).max());
+figure2.contourf(X, Y, gridHtx, levels = np.arange(0,1,0.02));
 figure2.set_title('$Numerical \ diffusion$', fontsize = AlvaFontSize);
 figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
 figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
@@ -241,6 +220,10 @@ aaa = np.arange(1,9);print aaa
 lll = np.roll(aaa,1); lll[0:1] = lll[1:2];print lll
 fff = np.roll(aaa,2); fff[0:2] = fff[2:3] ;print fff
 print (aaa, lll, fff)
+
+# <codecell>
+
+plt.contour(X, Y, gridHtx, levels = np.arange(0,1,0.02));
 
 # <codecell>
 

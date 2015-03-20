@@ -51,7 +51,7 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(5);
+minX = float(0); maxX = float(6);
 minT = float(0); maxT = float(10);
 
 totalGPoint_X = int(100 + 1);
@@ -111,14 +111,16 @@ Z = gridHtx_A;
 numberingFig = numberingFig + 1;
 figure = plt.figure(numberingFig,figsize=(16, 7)); 
 figure1 = figure.add_subplot(1,2,1);
-figure1.pcolormesh(X, Y, Z); 
+#figure1.pcolormesh(X, Y, Z); 
+figure1.plot(gridX[:], gridHtx_A[::10].T);
 figure1.set_title(r'$Analytic \ diffusion$', fontsize = AlvaFontSize); 
 figure1.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
-figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
+#figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
+figure1.set_ylabel(r'$ H(x,t) $', fontsize = AlvaFontSize);
 figure1.set_aspect('auto');
 
 figure2 = figure.add_subplot(1,2,2);
-figure2.contour(X, Y, Z, vmin=abs(Z).min(), vmax=abs(Z).max());
+figure2.contourf(X, Y, Z, levels = np.arange(0,1,0.02));
 figure2.set_title('$Analytic \ diffusion$', fontsize = AlvaFontSize);
 figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
 figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
@@ -131,7 +133,7 @@ figure = plt.figure(numberingFig, figsize=(9, 7));
 figure3D = Axes3D(figure)
 figure3D.view_init(30, 80)
 
-figure3D.plot_surface(X, Y, Z, rstride = 1, cstride = 6, alpha = 0.6, cmap = 'jet');
+figure3D.plot_surface(X, Y, Z, rstride = 9, cstride = 9, alpha = 0.6, cmap = 'jet');
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$t \ (time)$', fontsize = AlvaFontSize)
 plt.show()
 

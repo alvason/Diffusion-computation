@@ -31,12 +31,12 @@ numberingFig = 0;
 
 # Avarage Many Brownian ways
 
-minT = float(0); maxT = float(1);
+minT = float(0); maxT = float(3);
 totalGPoint_T = 100; 
 dt = (maxT - minT)/totalGPoint_T;
 gridT = np.linspace(minT, maxT, totalGPoint_T);
 
-totalWay = 30;
+totalWay = 10;
 GaussSeed = np.sqrt(dt)*np.random.randn(totalWay, totalGPoint_T); 
 
 gridB = np.zeros([totalWay, totalGPoint_T]);
@@ -48,16 +48,16 @@ EvaluateMean = np.mean(Evaluate, axis = 0)
 
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize = AlvaFigSize); 
-plt.plot(gridT, EvaluateMean)
-plt.plot(gridT, Evaluate[::10].T, linestyle = '--')
+plt.plot(gridT, Evaluate[::1].T, linewidth = 1)
+plt.plot(gridT, EvaluateMean, linewidth = 3, color = 'r')
 plt.grid(True)
 plt.title(r'$ Brownian \ motion: (dt = %f,\ motion = %i) $'%(dt, totalGPoint_T)
           , fontsize = AlvaFontSize);
 plt.xlabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
-plt.ylabel(r'$ B(t) $', fontsize = AlvaFontSize);
-plt.text(maxT, 1, r'$ B(t_{i+1}) = B(t_i) + (t_{i+1} - t_i)^{1/2}Gauss_{i+1} $'
+plt.ylabel(r'$ Evaluate(t) $', fontsize = AlvaFontSize);
+plt.text(maxT, 1, r'$ Evaluate(B(t)) = e^{t + \frac{1}{2}B(t)} $'
          , fontsize = AlvaFontSize);
-plt.legend(('Eva Mean', 'Eva way'), loc = (1, 1))
+# plt.legend(('Eva ways', 'Eva Mean'), loc = (1, 1))
 plt.show()
 
 # <codecell>
@@ -92,8 +92,8 @@ plt.show()
 
 # Brownian motion
 
-minT = float(0); maxT = float(1);
-totalGPoint_T = 300; 
+minT = float(0); maxT = float(3);
+totalGPoint_T = 100; 
 dt = (maxT - minT)/totalGPoint_T;
 
 GaussSeed = np.sqrt(dt)*np.random.randn(totalGPoint_T); 
@@ -121,6 +121,11 @@ plt.text(maxT, minT, r'$ B(t_{i+1}) = B(t_i) + (t_{i+1} - t_i)^{1/2}Gauss_{i+1} 
          , fontsize = AlvaFontSize);
 plt.legend()
 plt.show()
+
+# <codecell>
+
+aaa = np.zeros([2,4])
+aaa.T
 
 # <codecell>
 
