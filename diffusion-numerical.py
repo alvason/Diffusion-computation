@@ -47,7 +47,7 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 
 # define analytic solution H(x,t)
 def analyticHtx(t, x):
-    analyticH = (1.0/np.sqrt(1.0 + 4.0*movingRate*t))*np.exp(-(x - (maxX - minX)/2.0 + 1)**2/(1.0 + 4.0*movingRate*t));
+    analyticH = (1.0/np.sqrt(1.0 + 4.0*movingRate*t))*np.exp(-(x - (maxX - minX)/2.0 + 0)**2/(1.0 + 4.0*movingRate*t));
     return analyticH
 
 # <codecell>
@@ -70,9 +70,9 @@ plt.show()
 
 # Initial conditions
 minX = float(0); maxX = float(4);
-minT = float(0); maxT = float(3);
+minT = float(0); maxT = float(6);
 
-resolution = 100;
+resolution =20;
 
 totalGPoint_X = int(resolution + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
@@ -137,21 +137,47 @@ for tn in range(totalGPoint_T - 1):
     Hgear = gridHtx.copy();
 ''' 
 
-
+# 3 points scheme
 for tn in range(totalGPoint_T - 1):
-    leftX = np.roll(Hcopy[tn, :], 1); leftX[0:1] = 0.0; 
+    leftX = np.roll(Hcopy[tn, :], 1); leftX[0] = 0.0; 
     centerX = Hcopy[tn, :]; 
-    rightX = np.roll(Hcopy[tn, :], -1); rightX[-1:] = 0.0;
-    gridHtx[tn + 1, 1:-1] = Hcopy[tn, 1:-1] + dt*movingRate*(leftX[1:-1] - 2*centerX[1:-1] + rightX[1:-1])/(2*(dx)**2); 
+    rightX = np.roll(Hcopy[tn, :], -1); rightX[-1] = 0.0;
+    gridHtx[tn + 1, 1:-1] = Hcopy[tn, 1:-1] + dt*movingRate*(leftX[1:-1] - 2.0*centerX[1:-1] + rightX[1:-1])/((dx)**2); 
     
     # boundary
     centerX_L = Hcopy[tn, 0]; rightX = Hcopy[tn, 1];
     centerX_R = Hcopy[tn, -1]; leftX = Hcopy[tn, -2];
-    gridHtx[tn + 1, 0] = Hcopy[tn, 0] + dt*movingRate*(0*leftX - 2/2*centerX_L + rightX)/(2*(dx)**2);
-    gridHtx[tn + 1, -1:] = Hcopy[tn, -1:] + dt*movingRate*(leftX - 2/2*centerX_R + 0*rightX)/(2*(dx)**2);
+    gridHtx[tn + 1, 0] = Hcopy[tn, 0] + dt*movingRate*(0*leftX - 2.0/2*centerX_L + rightX)/((dx)**2);
+    gridHtx[tn + 1, -1] = Hcopy[tn, -1] + dt*movingRate*(leftX - 2.0/2*centerX_R + 0*rightX)/((dx)**2);
     
     Hcopy = gridHtx.copy();
-
+'''    
+# 5 points scheme    
+for tn in range(totalGPoint_T - 1):
+    leftX = np.roll(Hcopy[tn, :], 1); leftX[0:1] = 0.0; 
+    left2X = np.roll(Hcopy[tn, :], 2); left2X[0:2] = 0.0;
+    centerX = Hcopy[tn, :]; 
+    rightX = np.roll(Hcopy[tn, :], -1); rightX[-1:] = 0.0;
+    right2X = np.roll(Hcopy[tn, :], -2); right2X[-2:] = 0.0;
+    
+    gridHtx[tn + 1, 2:-2] = Hcopy[tn, 2:-2] + dt*movingRate*(-left2X[2:-2] + 16*leftX[2:-2] - 30*centerX[2:-2]
+                                                       + 16*rightX[2:-2] - right2X[2:-2])/(12*(dx)**2);   
+    # boundary
+    centerX_L = Hcopy[tn, 0]; rightX = Hcopy[tn, 1]; right2X = Hcopy[tn, 2];
+    center2X_L = Hcopy[tn, 1]; rightX = Hcopy[tn, 2]; right2X = Hcopy[tn, 3];
+    centerX_R = Hcopy[tn, -1]; leftX = Hcopy[tn, -2]; left2X = Hcopy[tn, -3];
+    center2X_R = Hcopy[tn, -2]; leftX = Hcopy[tn, -3]; left2X = Hcopy[tn, -4];
+    gridHtx[tn + 1, 0] = Hcopy[tn, 0] + dt*movingRate*(-left2X*0 + 16*leftX*0 - 30.0/2*centerX_L
+                                                       + 16*rightX - right2X)/(12*(dx)**2); 
+    gridHtx[tn + 1, 1] = Hcopy[tn, 1] + dt*movingRate*(-left2X*0 + 16*leftX - 30*center2X_L
+                                                       + 16*rightX - right2X)/(12*(dx)**2); 
+    gridHtx[tn + 1, -1] = Hcopy[tn, -1] + dt*movingRate*(-left2X + 16*leftX - 30.0/2*centerX_R 
+                                                         + 16*rightX*0 - right2X*0)/(12*(dx)**2);
+    gridHtx[tn + 1, -2] = Hcopy[tn, -2] + dt*movingRate*(-left2X + 16*leftX - 30*center2X_R 
+                                                         + 16*rightX - right2X*0)/(12*(dx)**2);
+    
+    Hcopy = gridHtx.copy();
+'''
 stop_time = time.time(); 
 total_time = stop_time - start_time;
 print 'total computational time = %f'% (total_time);
