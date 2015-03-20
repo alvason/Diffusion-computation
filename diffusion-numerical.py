@@ -69,10 +69,10 @@ plt.show()
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(4);
-minT = float(0); maxT = float(6);
+minX = float(0); maxX = float(5);
+minT = float(0); maxT = float(10);
 
-resolution =20;
+resolution = 100;
 
 totalGPoint_X = int(resolution + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
@@ -192,13 +192,20 @@ plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = 
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
 plt.show()
 
-
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig, figsize = AlvaFigSize); 
-plt.pcolor(X, Y, gridHtx);
-plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
-plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
-#plt.colorbar();
+figure = plt.figure(numberingFig,figsize=(16, 7)); 
+figure1 = figure.add_subplot(1,2,1);
+figure1.pcolormesh(X, Y, gridHtx); 
+figure1.set_title(r'$Numerical \ diffusion$', fontsize = AlvaFontSize); 
+figure1.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
+figure1.set_aspect('auto');
+
+figure2 = figure.add_subplot(1,2,2);
+figure2.contour(X, Y, gridHtx, vmin=abs(gridHtx).min(), vmax=abs(gridHtx).max());
+figure2.set_title('$Numerical \ diffusion$', fontsize = AlvaFontSize);
+figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
 plt.show()
 
 # <codecell>

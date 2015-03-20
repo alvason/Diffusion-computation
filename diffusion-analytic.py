@@ -51,7 +51,7 @@ def AlvaGridXX(gridX, totalGPoint_Y):
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(10);
+minX = float(0); maxX = float(5);
 minT = float(0); maxT = float(10);
 
 totalGPoint_X = int(100 + 1);
