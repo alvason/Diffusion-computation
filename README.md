@@ -10,7 +10,9 @@ During numerical computation development, an analytic solution is one of the cor
 ### Lecture-002  [Numerical solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-numerical.ipynb)
 
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/numericalD.png)
-The detail process in boundary is the key for precision 
+In case of isolated boundary condition
+
+In case of constant boundary condition
 
 ### Lecture-003  [Stochastic solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-stochastic.ipynb)
 
