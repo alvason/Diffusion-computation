@@ -49,7 +49,7 @@ EvaluateMean = np.mean(Evaluate, axis = 0)
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize = AlvaFigSize); 
 plt.plot(gridT, Evaluate[::1].T, linewidth = 1)
-plt.plot(gridT, EvaluateMean, linewidth = 3, color = 'r')
+plt.plot(gridT, EvaluateMean, linewidth = 3, color = 'red')
 plt.grid(True)
 plt.title(r'$ Brownian \ motion: (dt = %f,\ motion = %i) $'%(dt, totalGPoint_T)
           , fontsize = AlvaFontSize);
@@ -67,13 +67,13 @@ plt.show()
 minT = float(0); maxT = float(3);
 totalGPoint_T = 100; 
 dt = (maxT - minT)/totalGPoint_T;
-gridT = np.linspace(minT, maxT, totalGPoint_T);
+gridT = np.linspace(minT, maxT, totalGPoint_T); 
 
 totalWay = 30;
 GaussSeed = np.sqrt(dt)*np.random.randn(totalWay, totalGPoint_T); 
 
-gridB = np.zeros([totalWay, totalGPoint_T]);
-gridB = np.cumsum(GaussSeed, 1); 
+gridB = np.zeros([totalWay, totalGPoint_T]); 
+gridB = np.cumsum(GaussSeed, 1);
 gridB[:,0] = 0.0; # initialize B(0) = 0
 
 numberingFig = numberingFig + 1;

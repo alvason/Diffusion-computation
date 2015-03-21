@@ -37,6 +37,7 @@ plt.text(0,0.0/2,r'$H(x,t) = \frac{1}{(1 + 4 \xi \ t)^{1/2}} \
          e^\frac{-x^2}{1 + 4 \xi \ t}}$', fontsize = 1.5*AlvaFontSize)
 plt.show()
 
+
 # <codecell>
 
 # define GridXX function for making 2D-grid from 1D-grid
@@ -45,7 +46,6 @@ def AlvaGridXX(gridX, totalGPoint_Y):
     for n in range(totalGPoint_Y - 1):
         gridXX = np.vstack((gridXX, gridX));
     return gridXX;
-
 
 # define analytic solution H(x,t)
 def analyticHtx(t, x):
@@ -70,21 +70,20 @@ plt.text(0, 0, r'$ \Longrightarrow H(t+\Delta t,x) = H(t,x) + \Delta H(t+\Delta 
          = H(t,x) + \Delta t \ \xi(\frac{H(t,x - \Delta x) - 2H(t,x) \
          + H(t,x + \Delta x)}{(\Delta x)^2}) $', fontsize = AlvaFontSize)
 plt.show()
-plt.show()
 
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(6);
-minT = float(0); maxT = float(10);
+minX = float(0); maxX = float(40);
+minT = float(0); maxT = float(40);
 
-resolution = 100;
+resolution = 40;
 
 totalGPoint_X = int(resolution + 1);
 dx = (maxX - minX)/(totalGPoint_X - 1);
 gridX = np.linspace(minX, maxX, totalGPoint_X); 
 
-totalGPoint_T = int(20*resolution + 1); 
+totalGPoint_T = int(9*resolution + 1); 
 dt = (maxT - minT)/(totalGPoint_T - 1);
 gridT = np.linspace(minT, maxT, totalGPoint_T);
 
@@ -95,7 +94,7 @@ X = AlvaGridXX(gridX, totalGPoint_T);
 Y = AlvaGridXX(gridT, totalGPoint_X).T; 
 
 # diffusion coefficience (area moving rate per time)
-movingRate = 1.0/4;
+movingRate = 1.0/10;
 
 tn = 0; # inital time = minT = gridT[tn = 0]
 for xn in range(totalGPoint_X):
@@ -126,16 +125,15 @@ start_time = time.time();
  
 
 # 3 points scheme
+# isolated boundary requires leftX[0] = centerX[0] ==> centered formula = (- centerX[0] + rightX[0])
+# constant boundary requires leftX[0] = constant
 for tn in range(totalGPoint_T - 1):
     centerX = Hcopy[tn, :]; 
     leftX = np.roll(Hcopy[tn, :], 1);
-    # for isolated boundary requires 
-    # (leftX[0] - 2.0*centerX[0] + rightX[0]) = (- centerX[0] + rightX[0])
-    leftX[0] = centerX[0];
     rightX = np.roll(Hcopy[tn, :], -1);
+    leftX[0] = centerX[0];
     rightX[-1] = centerX[-1]; 
     gridHtx[tn + 1, :] = Hcopy[tn, :] + dt*movingRate*(leftX - 2.0*centerX + rightX)/((dx)**2); 
-    
     Hcopy = gridHtx.copy();
  
  
@@ -157,8 +155,6 @@ stop_time = time.time();
 total_time = stop_time - start_time;
 print 'total computational time = %f'% (total_time);
 
-'''
-#print gridHtx
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize = AlvaFigSize);     
 plt.plot(gridX, gridHtx[0::resolution].T);
@@ -167,63 +163,52 @@ plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = 
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
 plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
 plt.show()
-'''
 
 numberingFig = numberingFig + 1;
-figure = plt.figure(numberingFig,figsize=(16, 7)); 
-figure1 = figure.add_subplot(1,2,1);
-#figure1.pcolormesh(X, Y, gridHtx); 
-figure1.plot(gridX, gridHtx[0::2*resolution].T);
-figure1.set_title(r'$Numerical \ diffusion$', fontsize = AlvaFontSize); 
-figure1.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
-#figure1.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize); 
-figure1.set_ylabel(r'$H(x,t)$', fontsize = AlvaFontSize); 
-figure1.set_aspect('auto');
-
-figure2 = figure.add_subplot(1,2,2);
-figure2.contourf(X, Y, gridHtx, levels = np.arange(0,1,0.02));
-figure2.set_title('$Numerical \ diffusion$', fontsize = AlvaFontSize);
-figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
-figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
+plt.figure(numberingFig, figsize = AlvaFigSize);     
+#plt.pcolormesh(X, Y, gridHtx); 
+plt.contourf(X, Y, gridHtx, levels = np.arange(0,1,0.02));
+plt.title(r'$ Numerical \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
+plt.xlabel(r'$ x \ (space) $', fontsize = AlvaFontSize);
+plt.ylabel(r'$ t \ (time) $', fontsize = AlvaFontSize);
 plt.show()
 
 # <codecell>
 
 # Analytic solution
-gridHtx_A = np.zeros([totalGPoint_T, totalGPoint_X]); # Define the space for analytic values
+resolutionA = 500;
+totalGPoint_TA = int(3*resolutionA + 1); totalGPoint_XA = int(3*resolutionA + 1);
+gridX_A = np.linspace(minX, maxX, totalGPoint_XA);
+gridT_A = np.linspace(minT, maxT, totalGPoint_TA);
+gridHtx_A = np.zeros([totalGPoint_TA, totalGPoint_XA]); # Define the space for analytic values
 
-for tn in range(totalGPoint_T):  
-    for xn in range(totalGPoint_X):
-        gridHtx_A[tn,xn] = analyticHtx(gridT[tn], gridX[xn])
+for tn in range(totalGPoint_TA):  
+    for xn in range(totalGPoint_XA):
+        gridHtx_A[tn,xn] = analyticHtx(gridT_A[tn], gridX_A[xn])
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig, figsize = AlvaFigSize);     
-plt.plot(gridX[:], gridHtx_A[0::resolution].T);
+plt.figure(numberingFig, figsize = AlvaFigSize);   
+plt.plot(gridX_A[:], gridHtx_A[0::resolutionA].T);
 plt.grid(True)
 plt.title(r'$Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
-plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
-plt.text(maxX, 2.0/3, r'$ \frac{\partial H(x,t)}{\partial t}=\xi \ \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
-plt.text(maxX, 1.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} e^\frac{-x^2}{1 + 4 \ \xi \ t}}$', fontsize = 1.5*AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
+plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize)
+plt.text(maxX, 2.0/3, r'$ \frac{\partial H(x,t)}{\partial t}=\xi \
+         \frac{\partial^2 H(x,t)}{\partial x^2} $', fontsize = 1.5*AlvaFontSize)
+plt.text(maxX, 1.0/3, r'$H(t,x) = \frac{1}{(1 + 4 \ \xi \ t)^{1/2}} \
+         e^\frac{-x^2}{1 + 4 \xi \ t}}$', fontsize = 1.5*AlvaFontSize);
 plt.show();
 
+
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig, figsize = AlvaFigSize); 
-plt.pcolor(X, Y, gridHtx_A);
-plt.title(r'$ Analytic \ solution: (dt = %f,\ dx = %f) $'%(dt, dx), fontsize = AlvaFontSize);
-plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$H(x,t)$', fontsize = AlvaFontSize);
-#plt.colorbar();
+plt.figure(numberingFig, figsize = (20,12));   
+plt.plot(gridX_A[:], gridHtx_A[0::resolutionA].T)
+plt.plot(gridX[:], gridHtx[0::resolution*3].T, linestyle = 'dashed');
 plt.show()
 
 # <codecell>
 
-aaa = np.arange(1,9);print aaa
-lll = np.roll(aaa,1); lll[0:1] = lll[1:2];print lll
-fff = np.roll(aaa,2); fff[0:2] = fff[2:3] ;print fff
-print (aaa, lll, fff)
-
-# <codecell>
-
-plt.contour(X, Y, gridHtx, levels = np.arange(0,1,0.02));
+dx
 
 # <codecell>
 
