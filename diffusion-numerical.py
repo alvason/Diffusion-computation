@@ -59,7 +59,7 @@ def analyticHtx(t, x):
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize=(12,3))
 plt.axis('off')
-plt.title('Centered fomular of 2nd derivative', fontsize = AlvaFontSize)
+plt.title('Centered formular of 2nd derivative', fontsize = AlvaFontSize)
 plt.text(0, 2.0/3, r'$ \frac{\partial^2 H(t,x)}{\partial x^2} \approx \
          \frac{H(t,x - \Delta x) - 2H(t,x) + H(t,x + \Delta x)}{(\Delta x)^2} $'
          , fontsize = AlvaFontSize)
@@ -71,11 +71,47 @@ plt.text(0, 0, r'$ \Longrightarrow H(t+\Delta t,x) = H(t,x) + \Delta H(t+\Delta 
          + H(t,x + \Delta x)}{(\Delta x)^2}) $', fontsize = AlvaFontSize)
 plt.show()
 
+# valification of centered formular in the range of decritized step
+
+numberingFig = numberingFig + 1;
+plt.figure(numberingFig, figsize = (12,3))
+plt.axis('off')
+plt.title(r'$ Checking \ the \ effectiveness \ of \ \Delta x \ in \ the  \ Centered-formular by H(x) = e^-x^2 $', fontsize = AlvaFontSize)
+plt.text(0, 2.0/3, r'$ \frac{\partial^2 e^{-x^2}}{\partial x^2} = e^{-x^2}(4x^2 - 2) \
+          \approx \frac{(e^{-(x - \Delta x)^2} - 2e^{-x^2} + e^{-(x + \Delta x)^2})}{(\Delta x)^2} $', fontsize = AlvaFontSize)
+plt.show()
+
+minX = float(-3); maxX =float(3);
+totalGPoint_X = 1000;
+gridX = np.linspace(minX, maxX, totalGPoint_X);
+
+gridH_A = np.exp(-gridX**2)*(4*gridX**2 - 2);
+
+min_dx = float(1)/10; max_dx = float(1);
+totalGPoint_dx = 10;
+grid_dx = np.linspace(min_dx, max_dx, totalGPoint_dx)
+gridH_N = np.zeros([totalGPoint_dx, totalGPoint_X])
+for ndx in range(totalGPoint_dx):
+    gridH_N[ndx] = (np.exp(-(gridX - grid_dx[ndx])**2) 
+                    - 2*np.exp(-(gridX)**2) + np.exp(-(gridX + grid_dx[ndx])**2))/(grid_dx[ndx]**2);
+
+numberingFig = numberingFig + 1;
+plt.figure(numberingFig, figsize = AlvaFigSize)
+plt.plot(gridX, gridH_A)
+plt.plot(gridX, gridH_N.T)
+plt.grid(True)
+plt.title(r'$ Effectiveness (dx_{min} = %f,\ dx_{max} = %f) $'%(min_dx, max_dx), fontsize = AlvaFontSize);
+plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$ \frac{\partial^2 H(x)}{\partial x^2}$'
+                                                                  , fontsize = AlvaFontSize)
+plt.text(maxX, 2.0/3, r'$ \frac{\partial^2 e^{-x^2}}{\partial x^2} = e^{-x^2}(4x^2 - 2) $', fontsize = AlvaFontSize)
+plt.text(maxX, 0.0/3, r'$ \frac{\partial^2 e^{-x^2}}{\partial x^2} \approx \frac{(e^{-(x - \Delta x)^2} - 2e^{-x^2} + e^{-(x + \Delta x)^2})}{(\Delta x)^2} $', fontsize = AlvaFontSize)
+plt.show()
+
 # <codecell>
 
 # Initial conditions
-minX = float(0); maxX = float(40);
-minT = float(0); maxT = float(40);
+minX = float(0); maxX = float(20);
+minT = float(0); maxT = float(20);
 
 resolution = 40;
 
@@ -175,7 +211,7 @@ plt.show()
 
 # <codecell>
 
-# Analytic solution
+# comparing with analytic solution
 resolutionA = 500;
 totalGPoint_TA = int(3*resolutionA + 1); totalGPoint_XA = int(3*resolutionA + 1);
 gridX_A = np.linspace(minX, maxX, totalGPoint_XA);
@@ -201,14 +237,10 @@ plt.show();
 
 
 numberingFig = numberingFig + 1;
-plt.figure(numberingFig, figsize = (20,12));   
+plt.figure(numberingFig, figsize = (12,12));   
 plt.plot(gridX_A[:], gridHtx_A[0::resolutionA].T)
 plt.plot(gridX[:], gridHtx[0::resolution*3].T, linestyle = 'dashed');
 plt.show()
-
-# <codecell>
-
-dx
 
 # <codecell>
 
