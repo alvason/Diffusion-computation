@@ -91,9 +91,9 @@ min_dx = float(1)/10; max_dx = float(1);
 totalGPoint_dx = 10;
 grid_dx = np.linspace(min_dx, max_dx, totalGPoint_dx)
 gridH_N = np.zeros([totalGPoint_dx, totalGPoint_X])
-for ndx in range(totalGPoint_dx):
-    gridH_N[ndx] = (np.exp(-(gridX - grid_dx[ndx])**2) 
-                    - 2*np.exp(-(gridX)**2) + np.exp(-(gridX + grid_dx[ndx])**2))/(grid_dx[ndx]**2);
+for dxn in range(totalGPoint_dx):
+    gridH_N[dxn] = (np.exp(-(gridX - grid_dx[dxn])**2) 
+                    - 2*np.exp(-(gridX)**2) + np.exp(-(gridX + grid_dx[dxn])**2))/(grid_dx[dxn]**2);
 
 numberingFig = numberingFig + 1;
 plt.figure(numberingFig, figsize = AlvaFigSize)
