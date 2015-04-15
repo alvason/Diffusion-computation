@@ -63,7 +63,7 @@ def AlvaMinMax(data):
     return (minMaxListing)
 
 
-# leveling by using sorting technique
+# leveling by using min-max technique
 def AlvaLevel(data, totalLevel, normalization = True):
     totalDataPoint = np.size(data)
     minMaxListing = AlvaMinMax(data)
