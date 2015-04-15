@@ -1,5 +1,5 @@
 # Diffusion Computation
-### Lecture001  [Diffusion model with analytic solution](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-analytic.ipynb)
+### Section-001  [Diffusion model with analytic solution](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-analytic.ipynb)
 
 In a physical intuitive vision, an analytic solution is a crystal clear way for viewing the core. 
    
@@ -7,15 +7,15 @@ During numerical computation development, an analytic solution is one of the cor
 
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/analyticalD.png)
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/diffusion3D.png)
-### Lecture-002  [Numerical solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-numerical.ipynb)
+### Section-002  [Numerical solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-numerical.ipynb)
 
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/numericalD.png)
 In case of isolated boundary condition
 
 In case of constant boundary condition
 
-### Lecture-003  [Stochastic solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-stochastic.ipynb)
-
+### Section-003  [Stochastic solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-stochastic.ipynb)
+![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/gaussian-distribution.png)
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/stochasticD.png)
 Lecture-2A  Fisher-type diffusion by analytic way
 
