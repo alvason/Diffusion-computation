@@ -46,8 +46,8 @@ for i in range(totalGPoint_T):
     sumG = sumG + GaussSeed[i]
 meanG = sumG/(totalGPoint_T)
 
-# sorting
-def AlvaSorting(data):
+# min-max sorting
+def AlvaMinMax(data):
     totalData = np.size(data)
     minMaxListing = np.zeros(totalData)   
     for i in range(totalData):
@@ -66,7 +66,7 @@ def AlvaSorting(data):
 # leveling by using sorting technique
 def AlvaLevel(data, totalLevel, normalization = True):
     totalDataPoint = np.size(data)
-    minMaxListing = AlvaSorting(data)
+    minMaxListing = AlvaMinMax(data)
     # searching minimum and maximum values
     minValue = minMaxListing[0]
     maxValue = minMaxListing[-1]
@@ -88,7 +88,7 @@ def AlvaLevel(data, totalLevel, normalization = True):
     # delete the inital 'null' space
     levelSpace = np.delete(levelSpace, 0, 0) 
     if normalization == True:
-        numberLevel = numberLevel/AlvaSorting(numberLevel)[-1]
+        numberLevel = numberLevel/AlvaMinMax(numberLevel)[-1]
     return (gridLevel, numberLevel, levelSpace)
 
 totalLevel = int(totalGPoint_T/10)
@@ -101,12 +101,12 @@ print category[2].shape
 numberingFig = numberingFig + 1
 plt.figure(numberingFig, figsize = AlvaFigSize)
 plt.plot(gridT, GaussSeed, label = 'data')
-plt.plot(gridT, AlvaSorting(GaussSeed), color = 'red', label = 'sorting')
+plt.plot(gridT, AlvaMinMax(GaussSeed), color = 'red', label = 'minMaxListing')
 plt.grid(True)
 plt.title(r'$ Random \ motion \ (dt = %f,\ mean = %f) $'%(dt, meanG)
           , fontsize = AlvaFontSize)
 plt.xlabel(r'$t \ (time)$', fontsize = AlvaFontSize)
-plt.ylabel(r'$ Gaussian \ randomness(t) $', fontsize = AlvaFontSize)
+plt.ylabel(r'$ Randomness(t) $', fontsize = AlvaFontSize)
 plt.legend(loc = (1,0))
 plt.show()
 
@@ -122,46 +122,6 @@ plt.xlabel(r'$ Output \ level$', fontsize = AlvaFontSize)
 plt.ylabel(r'$ Number/level $', fontsize = AlvaFontSize)
 plt.legend(loc = (1,0))
 plt.show()
-
-# <codecell>
-
-
-# leveling
-def AlvaLevel(data, totalLevel): 
-    data = AlvaSorting(data)
-    totalData = np.size(data)
-    # searching minimum and maximum values
-    minValue = data[0]
-    maxValue = data[0]
-    for i in range(totalData):
-        if data[i] < minValue: 
-            minValue = data[i]
-        if data[i] > maxValue: 
-            maxValue = data[i]
-    spacingValue = np.linspace(minValue, maxValue, num = totalLevel + 1, retstep = True)        
-    gridLevel = np.delete(spacingValue[0], 0)
-    dL = spacingValue[1]
-#    print gridLevel
-    # catogerizing the level set
-    # initialize the space by a 'null'
-    levelSpace = np.zeros([3])
-    numberLevel = np.arange(0)
-    for i in range(totalLevel):
-        # searching the level in current array
-        n = 0 # counting the number in each level
-        for j in range(totalData):
-            if data[j] < gridLevel[i]: 
-                n = n + 1
-                levelSpace = np.vstack((levelSpace, [i, j, data[j]]))
-             #  print levelSpace
-        # removing the level-set from current array
-        data = np.delete(data, levelSpace[1:,1])
-        totalData = np.size(data)
-        numberLevel = np.append(numberLevel, n)
- #       print numberLevel
-    # delete the inital 'null' space
-    levelSpace = np.delete(levelSpace, 0, 0) 
-    return (gridLevel, numberLevel, levelSpace)
 
 # <codecell>
 
