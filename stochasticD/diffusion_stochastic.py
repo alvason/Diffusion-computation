@@ -19,9 +19,8 @@ date:   03/19/2015
 
 import numpy as np
 import matplotlib.pyplot as plt
-import time
-import IPython.display as idisplay
-from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+import alva_machinery as alva
 
 AlvaFontSize = 23;
 AlvaFigSize = (12, 4);
@@ -29,104 +28,7 @@ numberingFig = 0;
 
 # <codecell>
 
-# Gaussian randomness --- Gaussian distribution
-minT = float(0)
-maxT = float(1000)
-totalGPoint_T = int(maxT + 1)
-spacingT = np.linspace(minT, maxT, num = totalGPoint_T, retstep = True)
-gridT = spacingT[0]
-dt = spacingT[1]
-GaussSeed = np.random.randn(totalGPoint_T)
-
-#GaussSeed = np.arange(totalGPoint_T)*10.0
-#print GaussSeed
-# mean = 0
-sumG = 0
-for i in range(totalGPoint_T):
-    sumG = sumG + GaussSeed[i]
-meanG = sumG/(totalGPoint_T)
-
-# min-max sorting
-def AlvaMinMax(data):
-    totalData = np.size(data)
-    minMaxListing = np.zeros(totalData)   
-    for i in range(totalData):
-        # searching the minimum in current array
-        jj = 0 
-        minMaxListing[i] = data[jj]
-        for j in range(totalData - i):
-            if data[j] < minMaxListing[i]: 
-                minMaxListing[i] = data[j]
-                jj = j
-        # removing the minmum from current array
-        data = np.delete(data, jj)
-    return (minMaxListing)
-
-
-# leveling by using min-max technique
-def AlvaLevel(data, totalLevel, normalization = True):
-    totalDataPoint = np.size(data)
-    minMaxListing = AlvaMinMax(data)
-    # searching minimum and maximum values
-    minValue = minMaxListing[0]
-    maxValue = minMaxListing[-1]
-    spacingValue = np.linspace(minValue, maxValue, num = totalLevel + 1, retstep = True)        
-    gridLevel = np.delete(spacingValue[0], 0)
-    # catogerizing the level set
-    # initialize the levelspace by a 'null' space
-    levelSpace = np.zeros([2])
-    numberLevel = np.zeros([totalLevel])
-    jj = 0 # counting the checked number
-    for i in range(totalLevel): 
-        n = 0 # counting the number in each level
-        for j in range(jj, totalDataPoint):
-            if minMaxListing[j] <= gridLevel[i]: 
-                levelSpace = np.vstack((levelSpace, [i, minMaxListing[j]]))
-                n = n + 1
-        numberLevel[i] = n
-        jj = jj + n
-    # delete the inital 'null' space
-    levelSpace = np.delete(levelSpace, 0, 0) 
-    if normalization == True:
-        numberLevel = numberLevel/AlvaMinMax(numberLevel)[-1]
-    return (gridLevel, numberLevel, levelSpace)
-
-totalLevel = int(totalGPoint_T/10)
-category = AlvaLevel(GaussSeed,totalLevel)
-gridLevel = category[0]
-numberLevel = category[1]
-print category[2].shape
-#print numberLevel
-
-numberingFig = numberingFig + 1
-plt.figure(numberingFig, figsize = AlvaFigSize)
-plt.plot(gridT, GaussSeed, label = 'data')
-plt.plot(gridT, AlvaMinMax(GaussSeed), color = 'red', label = 'minMaxListing')
-plt.grid(True)
-plt.title(r'$ Random \ motion \ (dt = %f,\ mean = %f) $'%(dt, meanG)
-          , fontsize = AlvaFontSize)
-plt.xlabel(r'$t \ (time)$', fontsize = AlvaFontSize)
-plt.ylabel(r'$ Randomness(t) $', fontsize = AlvaFontSize)
-plt.legend(loc = (1,0))
-plt.show()
-
-
-numberingFig = numberingFig + 1
-plt.figure(numberingFig, figsize = AlvaFigSize)
-plt.plot(gridLevel, numberLevel, color = 'red', marker = 'o', label = 'category')
-plt.plot(gridLevel, np.exp(-gridLevel**2), label = 'Gaussian')
-plt.grid(True)
-plt.title(r'$ Gaussian \ distribution\ (data = %i,\ level = %i) $'%(totalGPoint_T, totalLevel)
-          , fontsize = AlvaFontSize)
-plt.xlabel(r'$ Output \ level$', fontsize = AlvaFontSize)
-plt.ylabel(r'$ Number/level $', fontsize = AlvaFontSize)
-plt.legend(loc = (1,0))
-plt.show()
-
-# <codecell>
-
 # Avarage Many Brownian ways
-
 minT = float(0)
 maxT = float(3)
 totalGPoint_T = 100
@@ -224,7 +126,7 @@ plt.xlabel(r'$t \ (time)$', fontsize = AlvaFontSize);
 plt.ylabel(r'$ B(t) $', fontsize = AlvaFontSize);
 plt.text(maxT, minT, r'$ B(t_{i+1}) = B(t_i) + (t_{i+1} - t_i)^{1/2}Gauss_{i+1} $'
          , fontsize = AlvaFontSize);
-plt.legend()
+plt.legend(loc = (1, 1))
 plt.show()
 
 # <codecell>
