@@ -17,8 +17,8 @@ In case of constant boundary condition
 ### Section-003  [Stochastic solution for the model of diffusion](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/diffusion-stochastic.ipynb)
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/stochasticD.png)
 #### [Randon distribution]
-![alt tag](https://github.com/alvason/diffusion-computation/stochasticD/blob/master/figure/gaussian-distribution.png)
-![alt tag](https://github.com/alvason/diffusion-computation/stochasticD/blob/master/figure/poisson-distribution.png)
+![alt tag](https://github.com/alvason/diffusion-computation/blob/master/stochasticD/figure/gaussian-distribution.png)
+![alt tag](https://github.com/alvason/diffusion-computation/blob/master/stochasticD/figure/poisson-distribution.png)
 Lecture-2A  Fisher-type diffusion by analytic way
 
 Lecture-2B  Fisher-type diffusion by numerical way
