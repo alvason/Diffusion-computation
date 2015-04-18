@@ -202,10 +202,35 @@ plt.show()
 
 # <codecell>
 
-aaa =np.arange(100)*0.1
-plt.plot(aaa, AlvaPoisson(4, aaa), marker ='o')
+def AlvaProduct(i):
+    i = np.copy(int(i))
+    productN = 1
+    for j in range(1, i + 1):        
+        productN = productN*j
+#       print productN
+    return (productN)
+
+def AlvaPoisson(m, i):
+    if type(i) == np.ndarray:
+        totalInput = np.size(i)
+        poissonD = np.zeros(totalInput)  
+        for xn in range(totalInput):
+            poissonD[xn] = (m**i[xn])*np.exp(-m)/np.prod(np.arange(1, i[xn] + 1))
+    return (poissonD)
+
+a = 20
+b = 1.0/2
+print a*b/2
+aaa =np.arange(1, a+1)*b
+print aaa
+plt.figure(figsize = (12, 4))
+plt.plot(aaa, AlvaPoisson(a*b/2, aaa), marker ='o', color = 'red')
+plt.grid(True)
+plt.show()
 
 # <codecell>
 
-plt.plot()
+i = 20
+print ('Alva = ', AlvaProduct(i))
+print ('NumP = ', np.prod(np.arange(1, i + 1)))
 
