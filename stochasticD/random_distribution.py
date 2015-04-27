@@ -106,6 +106,62 @@ plt.show()
 
 # <codecell>
 
+'''Poisson process --- Poisson distribution'''
+numberingFig = numberingFig + 1
+plt.figure(numberingFig, figsize=(12, 3))
+plt.axis('off')
+plt.title(r'$ Poisson-distribution \ equation $',fontsize = AlvaFontSize)
+plt.text(0,2.0/3,r'$ P_{p}(n|N) = \frac{N!}{n!(N - n)!} p^n (1 - p)^{N - n} $', fontsize = 1.2*AlvaFontSize)
+plt.text(0,1.0/3,r'$ P_{m}(n) = \frac{e^{-m} m^n}{n!}, where \ the \ mean \ (average) \ m \equiv pN  $', fontsize = 1.2*AlvaFontSize)
+plt.show()
+
+def AlvaProduct(i):
+    product = 1
+    for j in range(1, int(i) + 1):        
+        product = product*j
+#       print product
+    return (product)
+
+def AlvaPoissonProcess(i, N):
+    if type(i) == np.ndarray:
+        total_Input = np.size(i)
+    p = np.zeros(total_Input)
+    process = np.zeros(total_Input)
+    for xn in range(total_Input):
+        p[xn] = 0.5
+        process[xn] = AlvaProduct(N)/(AlvaProduct(i[xn])*AlvaProduct(N - i[xn])
+                                      ) * p[xn]**i[xn] * (1 - p[xn])**(N - i[xn])
+    print ('probability = ', p)
+    return (process)
+
+def AlvaPoissonD(m, i):
+    if type(i) == np.ndarray:
+        total_Input = np.size(i)
+        distribution = np.zeros(total_Input)  
+        for xn in range(total_Input):
+            distribution[xn] = (m**i[xn])*np.exp(-m)/AlvaProduct(i[xn])
+    return (distribution)
+
+N = float(100)
+b = 1
+mean = N*b/2
+rangeN = N*b
+print ('mean = ', mean)
+aaa =np.arange(1, N)*b
+print aaa
+plt.figure(figsize = (12, 4))
+#plt.plot(aaa, AlvaPoissonProcess(aaa, N), marker ='^', color = 'blue', label = 'Process')
+#plt.plot(aaa, AlvaPoissonD(mean, aaa), marker ='o', color = 'red', label = 'Distribution')
+plt.plot(aaa, np.exp(-((aaa - mean)/rangeN)**2), marker ='+', color = 'red', label = 'Gaussian')
+plt.xlabel(r'$ Output-level$', fontsize = AlvaFontSize)
+plt.ylabel(r'$ Number/level $', fontsize = AlvaFontSize)
+plt.title(r'$ Poisson \ process $', fontsize = AlvaFontSize)
+plt.grid(True)
+plt.legend(loc = (1, 0))
+plt.show()
+
+# <codecell>
+
 '''Poisson randomness --- Poisson distribution'''
 
 minT = float(0)
@@ -159,23 +215,6 @@ gridLevel = category[0]
 numberLevel = category[1]
 print category[2].shape
 
-def AlvaPoisson(m, i):
-    if type(i) == np.ndarray:
-        totalInput = np.size(i)
-        poissonD = np.zeros(totalInput)
-        for xn in range(totalInput):
-            productN = 1
-            for j in range(1, int(i[xn]) + 1):
-                productN = productN*j
-            poissonD[xn] = (m**i[xn])*np.exp(-m)/productN
-    else:
-        productN = 1
-        for j in range(1, int(i) + 1):
-            productN = productN*j
-        poissonD = (m**i)*np.exp(-m)/productN
-    return (poissonD)
-
-
 numberingFig = numberingFig + 1
 plt.figure(numberingFig, figsize = AlvaFigSize)
 plt.plot(gridT, randomSeed, label = 'data')
@@ -191,7 +230,8 @@ plt.show()
 numberingFig = numberingFig + 1
 plt.figure(numberingFig, figsize = AlvaFigSize)
 plt.plot(gridLevel, numberLevel, color = 'red', marker = 'o', label = 'category')
-plt.plot(gridLevel, AlvaPoisson(meanP, gridLevel), label = 'Poisson')
+plt.plot(gridLevel, AlvaPoissonD(meanP, gridLevel), label = 'Poisson')
+#plt.plot(gridLevel, AlvaPoissonProcess(gridLevel, totalLevel), label = 'Poisson')
 plt.grid(True)
 plt.title(r'$ Poisson \ distribution\ (data = %i,\ level = %i) $'%(totalGPoint_T, totalLevel)
           , fontsize = AlvaFontSize)
@@ -202,35 +242,52 @@ plt.show()
 
 # <codecell>
 
-def AlvaProduct(i):
-    i = np.copy(int(i))
-    productN = 1
-    for j in range(1, i + 1):        
-        productN = productN*j
-#       print productN
-    return (productN)
+i = 20
+print ('Alva = ', AlvaProduct(i))
+print ('NumP = ', np.prod(np.arange(1, i + 1)))
 
-def AlvaPoisson(m, i):
-    if type(i) == np.ndarray:
-        totalInput = np.size(i)
-        poissonD = np.zeros(totalInput)  
-        for xn in range(totalInput):
-            poissonD[xn] = (m**i[xn])*np.exp(-m)/np.prod(np.arange(1, i[xn] + 1))
-    return (poissonD)
+# <codecell>
 
-a = 20
-b = 1.0/2
-print a*b/2
-aaa =np.arange(1, a+1)*b
+''' Gaussian Distribution '''
+unitD = 1
+rangeD = float(100)*unitD
+meanD = rangeD/2
+varianceD = rangeD
+print ('mean = ', mean)
+aaa =np.arange(1, rangeD)*b
 print aaa
 plt.figure(figsize = (12, 4))
-plt.plot(aaa, AlvaPoisson(a*b/2, aaa), marker ='o', color = 'red')
+#plt.plot(aaa, AlvaPoissonProcess(aaa, N), marker ='^', color = 'blue', label = 'Process')
+#plt.plot(aaa, AlvaPoissonD(mean, aaa), marker ='o', color = 'red', label = 'Distribution')
+plt.plot(aaa, np.exp(-((aaa - meanD)/varianceD)**2), marker ='+', color = 'red', label = 'Gaussian')
+plt.plot(aaa, np.exp(-((aaa - meanD)**2/varianceD)), marker ='+', color = 'blue', label = 'Gaussian')
+plt.xlabel(r'$ Output-level$', fontsize = AlvaFontSize)
+plt.ylabel(r'$ Number/level $', fontsize = AlvaFontSize)
+plt.title(r'$ Poisson \ process $', fontsize = AlvaFontSize)
 plt.grid(True)
+plt.legend(loc = (1, 0))
 plt.show()
 
 # <codecell>
 
-i = 20
-print ('Alva = ', AlvaProduct(i))
-print ('NumP = ', np.prod(np.arange(1, i + 1)))
+def AlvaIntegrationArea(minI, maxI, totalGPoint_in, inOut):
+    spacingI = np.linspace(minI, maxI, num = totalGPoint_in, retstep = True)
+    gridI = spacingI[0]
+    dx = spacingI[1]
+    outArea = 0
+    for xn in range(totalGPoint_in):
+        outArea = outArea + inOut(gridI[xn])*dx
+    return (outArea)
+
+def gaussianA(i):
+    inOut = np.exp(-i**2)
+    return (inOut)
+gg = np.exp(-i**2)
+ggg = AlvaIntegrationArea(-10, 10, 100, gaussianA)
+print ggg
+ppp = (np.pi)**(1.0/2)
+print ppp
+
+# <codecell>
+
 
