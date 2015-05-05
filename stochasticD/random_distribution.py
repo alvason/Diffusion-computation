@@ -22,28 +22,9 @@ import matplotlib.pyplot as plt
 
 import alva_machinery as alva
 
-AlvaFontSize = 23;
-AlvaFigSize = (12, 4);
-numberingFig = 0;
-
-# <codecell>
-
-'''Gaussian randomness --- Gaussian distribution --- Standard normal distribution'''
-
-minT = float(0)
-maxT = float(1000)
-totalGPoint_T = int(maxT + 1)
-spacingT = np.linspace(minT, maxT, num = totalGPoint_T, retstep = True)
-gridT = spacingT[0]
-dt = spacingT[1]
-randomSeed = np.random.standard_normal(totalGPoint_T)
-#randomSeed = np.arange(totalGPoint_T)*10.0
-#print randomSeed
-# mean = 0
-sumG = 0
-for i in range(totalGPoint_T):
-    sumG = sumG + randomSeed[i]
-meanG = sumG/(totalGPoint_T)
+AlvaFontSize = 23
+AlvaFigSize = (16, 7)
+numberingFig = 0
 
 # leveling by using min-max way
 def AlvaLevel(data, totalLevel, normalization = True):
@@ -53,7 +34,7 @@ def AlvaLevel(data, totalLevel, normalization = True):
     minValue = minMaxListing[0]
     maxValue = minMaxListing[-1]
     spacingValue = np.linspace(minValue, maxValue, num = totalLevel + 1, retstep = True)        
-    gridLevel = np.delete(spacingValue[0], 0)
+    gLevel = np.delete(spacingValue[0], 0)
     # catogerizing the level set
     # initialize the levelspace by a 'null' space
     levelSpace = np.zeros([2])
@@ -62,7 +43,7 @@ def AlvaLevel(data, totalLevel, normalization = True):
     for i in range(totalLevel): 
         n = 0 # counting the number in each level
         for j in range(jj, totalDataPoint):
-            if minMaxListing[j] <= gridLevel[i]: 
+            if minMaxListing[j] <= gLevel[i]: 
                 levelSpace = np.vstack((levelSpace, [i, minMaxListing[j]]))
                 n = n + 1
         numberLevel[i] = n
@@ -71,37 +52,60 @@ def AlvaLevel(data, totalLevel, normalization = True):
     levelSpace = np.delete(levelSpace, 0, 0) 
     if normalization == True:
         numberLevel = numberLevel/alva.AlvaMinMax(numberLevel)[-1]
-    return (gridLevel, numberLevel, levelSpace)
+    return (gLevel, numberLevel, levelSpace)
 
-totalLevel = int(totalGPoint_T/10)
-category = AlvaLevel(randomSeed, totalLevel)
-gridLevel = category[0]
+# <codecell>
+
+'''Gaussian randomness --- Gaussian distribution --- Standard normal distribution'''
+
+totalPoint_Input = int(200)
+gInput = np.arange(totalPoint_Input)
+randomSeed = np.random.standard_normal(totalPoint_Input)
+
+sumG = 0
+for i in range(totalPoint_Input):
+    sumG = sumG + randomSeed[i]
+meanG = sumG/(totalPoint_Input)
+
+totalLevel = int(totalPoint_Input/1)
+category = AlvaLevel(randomSeed, totalLevel, False)
+gLevel = category[0]
 numberLevel = category[1]
 print category[2].shape
 
 numberingFig = numberingFig + 1
-plt.figure(numberingFig, figsize = AlvaFigSize)
-plt.plot(gridT, randomSeed, label = 'data')
-plt.plot(gridT, alva.AlvaMinMax(randomSeed), color = 'red', label = 'minMaxListing')
-plt.grid(True)
-plt.title(r'$ Random \ output \ (dt = %f,\ mean = %f) $'%(dt, meanG)
+figure = plt.figure(numberingFig, figsize = AlvaFigSize)
+plot1 = figure.add_subplot(1, 2, 1)
+plot1.plot(gInput, randomSeed, color = 'gray', marker = 'o', label = 'data')
+plot1.plot(gInput, alva.AlvaMinMax(randomSeed), color = 'red', marker = 'o', label = 'minMaxListing')
+if totalPoint_Input < 100:
+    plot1.set_xticks(gInput, minor = True) 
+    plot1.set_yticks(randomSeed, minor = True)
+    plot1.grid(True, which = 'minor')
+else:
+    plot1.grid(True, which = 'major')
+plt.title(r'$ Random \ output \ (total-input = %i,\ mean = %f) $'%(totalPoint_Input, meanG)
           , fontsize = AlvaFontSize)
-plt.xlabel(r'$t \ (time)$', fontsize = AlvaFontSize)
-plt.ylabel(r'$ Randomness(t) $', fontsize = AlvaFontSize)
-plt.legend(loc = (1,0))
-plt.show()
+plt.xlabel(r'$ input-time $', fontsize = AlvaFontSize)
+plt.ylabel(r'$ output $', fontsize = AlvaFontSize)
+plt.legend(loc = (0, -0.2))
 
-
-numberingFig = numberingFig + 1
-plt.figure(numberingFig, figsize = AlvaFigSize)
-plt.plot(gridLevel, numberLevel, color = 'red', marker = 'o', label = 'category')
-plt.plot(gridLevel, np.exp(-gridLevel**2), label = 'Gaussian')
-plt.grid(True)
-plt.title(r'$ Gaussian \ distribution\ (data = %i,\ level = %i) $'%(totalGPoint_T, totalLevel)
+plot2 = figure.add_subplot(1, 2, 2)
+plot2.plot(numberLevel, gLevel, color = 'red', marker = 'o', label = 'category')
+plot2.plot(np.exp(-gLevel**2)*alva.AlvaMinMax(numberLevel)[-1], gLevel, color = 'blue', marker = 'o', label = 'Gaussian') 
+if totalPoint_Input < 100:
+    plot2.set_xticks(numberLevel, minor = True) 
+    plot2.set_yticks(gLevel, minor = True)
+    plot2.grid(True, which = 'minor')
+else:
+    plot2.grid(True, which = 'major')
+plt.title(r'$ Gaussian \ distribution\ (data = %i,\ level = %i) $'%(totalPoint_Input, totalLevel)
           , fontsize = AlvaFontSize)
-plt.xlabel(r'$ Output-level$', fontsize = AlvaFontSize)
-plt.ylabel(r'$ Number/level $', fontsize = AlvaFontSize)
-plt.legend(loc = (1,0))
+plt.xlabel(r'$ Number/level $', fontsize = AlvaFontSize)
+plt.ylabel(r'$ Output-level $', fontsize = AlvaFontSize)
+plt.legend(loc = (0, -0.2))
+
+figure.tight_layout()
 plt.show()
 
 # <codecell>
@@ -242,9 +246,9 @@ plt.show()
 
 # <codecell>
 
-i = 20
+i = 30
 print ('Alva = ', AlvaProduct(i))
-print ('NumP = ', np.prod(np.arange(1, i + 1)))
+print ('NumP = ', np.prod(np.arange(1, i + 1), dtype=np.int64))
 
 # <codecell>
 
@@ -270,23 +274,27 @@ plt.show()
 
 # <codecell>
 
-def AlvaIntegrationArea(minI, maxI, totalGPoint_in, inOut):
-    spacingI = np.linspace(minI, maxI, num = totalGPoint_in, retstep = True)
-    gridI = spacingI[0]
-    dx = spacingI[1]
+def AlvaIntegrateArea(out_i, min_i, max_i, totalGPoint_i):
+    spacing_i = np.linspace(min_i, max_i, num = totalGPoint_i, retstep = True)
+    grid_i = spacing_i[0]
+    dx = spacing_i[1]
     outArea = 0
-    for xn in range(totalGPoint_in):
-        outArea = outArea + inOut(gridI[xn])*dx
+    for xn in range(totalGPoint_i):
+        outArea = outArea + out_i(grid_i[xn])*dx
     return (outArea)
 
 def gaussianA(i):
     inOut = np.exp(-i**2)
     return (inOut)
-gg = np.exp(-i**2)
-ggg = AlvaIntegrationArea(-10, 10, 100, gaussianA)
+
+ggg = AlvaIntegrateArea(gaussianA, -10, 10, 100)
 print ggg
 ppp = (np.pi)**(1.0/2)
 print ppp
+
+# <codecell>
+
+gInput
 
 # <codecell>
 
