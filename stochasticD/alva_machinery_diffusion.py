@@ -18,11 +18,6 @@ date:   03/23/2015
 Home-made machinery for solving partial differential equations
 '''
 import numpy as np
-import matplotlib.pyplot as plt
-
-AlvaFontSize = 23
-AlvaFigSize = (15, 3)
-numberingFig = 0
 
 # define RK4 for an array (3, n) of coupled differential equations
 def AlvaRungeKutta4ArrayXT(pde_array, startingOut_Value, minX_In, maxX_In, totalGPoint_X, minT_In, maxT_In, totalGPoint_T):
@@ -115,4 +110,38 @@ def AlvaMinMax(data):
         # reducing the size of searching zone (removing the minmum from current array)
         data = np.delete(data, jj)
     return (minMaxListing)
+
+'''
+author: Alvason Zhenhua Li
+date:   04/16/2015
+
+Home-made machinery for leveling a list by using min-max way
+'''
+# leveling by using min-max way
+def AlvaLevel(data, totalLevel, normalization = True):
+    totalDataPoint = np.size(data)
+    minMaxListing = AlvaMinMax(data)
+    # searching minimum and maximum values
+    minValue = minMaxListing[0]
+    maxValue = minMaxListing[-1]
+    spacingValue = np.linspace(minValue, maxValue, num = totalLevel + 1, retstep = True)        
+    gLevel = np.delete(spacingValue[0], 0)
+    # catogerizing the level set
+    # initialize the levelspace by a 'null' space
+    levelSpace = np.zeros([2])
+    numberLevel = np.zeros([totalLevel])
+    jj = 0 # counting the checked number
+    for i in range(totalLevel): 
+        n = 0 # counting the number in each level
+        for j in range(jj, totalDataPoint):
+            if minMaxListing[j] <= gLevel[i]: 
+                levelSpace = np.vstack((levelSpace, [i, minMaxListing[j]]))
+                n = n + 1
+        numberLevel[i] = n
+        jj = jj + n
+    # delete the inital 'null' space
+    levelSpace = np.delete(levelSpace, 0, 0) 
+    if normalization == True:
+        numberLevel = numberLevel/AlvaMinMax(numberLevel)[-1]
+    return (gLevel, numberLevel, levelSpace)
 
