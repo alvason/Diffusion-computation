@@ -87,9 +87,7 @@ def AlvaIntegrateArea(out_i, min_i, max_i, totalGPoint_i):
     spacing_i = np.linspace(min_i, max_i, num = totalGPoint_i, retstep = True)
     grid_i = spacing_i[0]
     dx = spacing_i[1]
-    outArea = 0
-    for xn in range(totalGPoint_i):
-        outArea = outArea + out_i(grid_i[xn])*dx
+    outArea = np.sum(out_i(grid_i[:]))*dx
     return (outArea)
 
 def gaussianA(i):
