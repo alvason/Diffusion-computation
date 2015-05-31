@@ -1,11 +1,9 @@
 # Diffusion Computation
-### Section-001  [Diffusion model with analytic solution](https://github.com/alvason/diffusion-computation/blob/master/code/diffusion_numerical.ipynb)
+### Section-001  [Diffusion model with analytic solution](https://github.com/alvason/diffusion-computation/blob/master/code/diffusion_analytic.ipynb)
 In a physical intuitive vision, an analytic solution is a crystal clear way for viewing the core. 
    
 During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
-
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/analyticalD.png)
-![alt tag](https://github.com/alvason/diffusion-computation/blob/master/figure/diffusion3D.png)
 
 ### Section-002  [Numerical solution for the model of diffusion](https://github.com/alvason/diffusion-computation/blob/master/code/diffusion_numerical.ipynb)
 
