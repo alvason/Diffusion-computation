@@ -11,5 +11,5 @@ During numerical computation development, an analytic solution is one of the cor
 In case of isolated boundary condition
 In case of constant boundary condition
 
-### Section-003  [Stochastic solution for the diffusion model](http://nbviewer.ipython.org/github/alvason/diffusion-computation/blob/master/stochasticD/diffusion_stochastic.ipynb)
+### Section-003  [Stochastic solution for the diffusion model](https://github.com/alvason/diffusion-computation/blob/master/stochasticD/diffusion_stochastic.ipynb)
 ![alt tag](https://github.com/alvason/diffusion-computation/blob/master/stochasticD/figure/stochasticD.png)
