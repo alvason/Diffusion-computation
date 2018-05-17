@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
 
-# <markdowncell>
+# coding: utf-8
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
@@ -11,7 +9,7 @@
 #    
 # During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 
-# <codecell>
+# In[1]:
 
 '''
 author: Alvason Zhenhua Li
@@ -21,7 +19,7 @@ In a physical intuitive vision, an analytic solution is a crystal clear way for 
 During numerical computation development, an analytic solution is one of the corner stones for checking the precision and efficiency of numerical algorithm.
 '''
 
-%matplotlib inline
+get_ipython().magic('matplotlib inline')
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -48,7 +46,8 @@ def AlvaGridXX(gridX, totalGPoint_Y):
     return gridXX;
 # checking both the gridXX function and the plotting function with matrix of gridXX
 
-# <codecell>
+
+# In[2]:
 
 # Initial conditions
 minX = float(0); maxX = float(6);
@@ -83,7 +82,8 @@ plt.text(maxX, 1.0/3, r'$ dt = %f $'%(dt), fontsize = AlvaFontSize);
 plt.text(maxX, minX, r'$ dx = %f $'%(dx), fontsize = AlvaFontSize); 
 plt.show()
 
-# <codecell>
+
+# In[3]:
 
 # Analytic solution
 gridHtx_A = np.zeros([totalGPoint_T, totalGPoint_X]); # Define the space for analytic values
@@ -126,7 +126,8 @@ figure2.set_xlabel(r'$x \ (space)$', fontsize = AlvaFontSize);
 figure2.set_ylabel(r'$t \ (time)$', fontsize = AlvaFontSize);
 plt.show()
 
-# <codecell>
+
+# In[4]:
 
 numberingFig = numberingFig + 1;
 figure = plt.figure(numberingFig, figsize=(9, 7));
@@ -137,7 +138,8 @@ figure3D.plot_surface(X, Y, Z, rstride = 9, cstride = 9, alpha = 0.6, cmap = 'je
 plt.xlabel(r'$x \ (space)$', fontsize = AlvaFontSize); plt.ylabel(r'$t \ (time)$', fontsize = AlvaFontSize)
 plt.show()
 
-# <codecell>
+
+# In[5]:
 
 minY = minT; maxY = maxT;
 minZ = 0; maxZ = 1;
@@ -177,6 +179,8 @@ figure2.set_zlim(minZ - maxZ, maxZ + maxZ);
 figure.tight_layout()
 plt.show()
 
-# <codecell>
+
+# In[ ]:
+
 
 

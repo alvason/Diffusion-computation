@@ -1,32 +1,31 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
 
-# <markdowncell>
+# coding: utf-8
 
 # # Diffusion computation
 # https://github.com/alvason/diffusion-computation
 # 
 # ### Lecture003 --- Stochastic solution for the diffusion equation
 
-# <codecell>
+# In[1]:
 
 '''
 author: Alvason Zhenhua Li
 date:   03/19/2015
 '''
 
-%matplotlib inline
+get_ipython().magic(u'matplotlib inline')
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-import alva_machinery as alva
+import alva_machinery_diffusion as alva
 
 AlvaFontSize = 23;
 AlvaFigSize = (12, 4);
 numberingFig = 0;
 
-# <codecell>
+
+# In[2]:
 
 # Avarage Many Brownian ways
 minT = float(0)
@@ -59,7 +58,8 @@ plt.text(maxT, 1, r'$ Evaluate(B(t)) = e^{t + \frac{1}{2}B(t)} $'
 # plt.legend(('Eva ways', 'Eva Mean'), loc = (1, 1))
 plt.show()
 
-# <codecell>
+
+# In[3]:
 
 # Many Brownian ways
 
@@ -87,7 +87,8 @@ plt.text(maxT, minT, r'$ B(t_{i+1}) = B(t_i) + (t_{i+1} - t_i)^{1/2}Gauss_{i+1} 
          , fontsize = AlvaFontSize);
 plt.show()
 
-# <codecell>
+
+# In[4]:
 
 # Brownian motion
 minT = float(0)
@@ -129,7 +130,8 @@ plt.text(maxT, minT, r'$ B(t_{i+1}) = B(t_i) + (t_{i+1} - t_i)^{1/2}Gauss_{i+1} 
 plt.legend(loc = (1, 1))
 plt.show()
 
-# <codecell>
+
+# In[5]:
 
 np.random.seed(100)
 
@@ -158,6 +160,8 @@ ax.plot(np.linspace(0,T,L+1),Xem,'r--*')
 ax.legend(("exact","em"),loc=2)
 plt.show()
 
-# <codecell>
+
+# In[ ]:
+
 
 
